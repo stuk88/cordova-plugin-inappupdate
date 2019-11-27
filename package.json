@@ -1,0 +1,60 @@
+{
+  "_from": "cordova-plugin-inappupdate",
+  "_id": "cordova-plugin-inappupdate@1.0.1",
+  "_inBundle": false,
+  "_integrity": "sha512-tV9xx5zmGIek/qumA32mOi/IqN2eSeyHFuQe8GH/u7AVURc8Spxs38lM4n9lEEysiukevRQ8BMfue44ZS1UZHQ==",
+  "_location": "/cordova-plugin-inappupdate",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "cordova-plugin-inappupdate",
+    "name": "cordova-plugin-inappupdate",
+    "escapedName": "cordova-plugin-inappupdate",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-inappupdate/-/cordova-plugin-inappupdate-1.0.1.tgz",
+  "_shasum": "2fa68482519de01924d75ce3dc2ecd0e79906719",
+  "_spec": "cordova-plugin-inappupdate",
+  "_where": "/home/stas/Projects/Ugotit/app",
+  "author": {
+    "name": "kalaiprakash93@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/kalaiprakash93/cordova-plugin-inappupdate/issues"
+  },
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "cordova-plugin-inappupdate",
+    "platforms": [
+      "android"
+    ]
+  },
+  "deprecated": false,
+  "description": "This plugin establishes the functionality for downloading the app in background",
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=5.0.0"
+    }
+  ],
+  "homepage": "https://github.com/kalaiprakash93/cordova-plugin-inappupdate#readme",
+  "keywords": [
+    "inappupdate",
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "license": "Apache 2.0 License",
+  "name": "cordova-plugin-inappupdate",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kalaiprakash93/cordova-plugin-inappupdate.git"
+  },
+  "version": "1.0.1"
+}

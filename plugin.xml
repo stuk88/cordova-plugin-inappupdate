@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    id="cordova-plugin-inappupdate"
+    version="1.0.1">
+    <name>inAppUpdate</name>
+    <description>This plugin establishes the functionality for downloading the app in background</description>
+    <author>kalaiprakash93@gmail.com</author>
+    <engines>
+        <engine name="cordova" version=">=5.0.0" />
+    </engines>
+    <keywords>inappupdate</keywords>
+    <license>Apache 2.0 License</license>
+    <repo></repo>
+    <issue></issue>
+	<asset src="www/inAppUpdate.js" target="js/inAppUpdate.js"/>
+	<js-module src="www/inAppUpdate.js" name="inAppUpdate">
+        <clobbers target="inAppUpdate" />
+		</js-module>
+    <!-- android -->
+    <platform name="android">	
+		<framework src="com.google.android.play:core:1.6.3" />
+		<framework src="com.android.support:design:28.0.0" />
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="inAppUpdate" >
+                <param name="android-package" value="com.update.background.inAppUpdate"/>
+            </feature>
+        </config-file>
+        <source-file src="src/android/inAppUpdate.java" target-dir="src/com/update/background/" />
+	    <framework src="src/android/inappupdate.gradle" custom="true" type="gradleReference"/>
+    </platform>
+</plugin>
