@@ -57,6 +57,8 @@ public class inAppUpdate extends CordovaPlugin implements OnSuccessListener<AppU
             callback = callbackContext;
             arguments = args;
             appUpdateManager.getAppUpdateInfo().addOnSuccessListener(this);
+            callbackContext.success();
+
         }
         return true;
     }
@@ -77,12 +79,13 @@ public class inAppUpdate extends CordovaPlugin implements OnSuccessListener<AppU
     @Override
     public void onSuccess(AppUpdateInfo appUpdateInfo) {
         try{
-            JSONObject appData = arguments.getJSONObject(0);
             JSONObject updateData = new JSONObject();
 
             updateData.put("versionCode",appUpdateInfo.availableVersionCode());
             updateData.put("status",appUpdateInfo.installStatus());
-            callback.success(updateData);
+
+            JSONObject appData = arguments.getJSONObject(0);
+
             if(appData.optString("updateIndicator").toString().equals("mandatory")){
                 if (appUpdateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
                     updateData.put("updateavailablity","in_progress");
@@ -110,8 +113,9 @@ public class inAppUpdate extends CordovaPlugin implements OnSuccessListener<AppU
                 }
             }
 
+
         }catch (JSONException e){
-            callback.error(e.getMessage());
+            /*callback.error(e.getMessage());*/
         }
     }
     private void startUpdate(final AppUpdateInfo appUpdateInfo, final int appUpdateType) {
