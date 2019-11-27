@@ -26,7 +26,7 @@
                 <param name="android-package" value="com.ugotit.app.inAppUpdate"/>
             </feature>
         </config-file>
-        <source-file src="src/android/inAppUpdate.java" target-dir="src/ugotit/app/inAppUpdate/" />
+        <source-file src="src/android/inAppUpdate.java" target-dir="src/com/ugotit/app/" />
 	    <framework src="src/android/inappupdate.gradle" custom="true" type="gradleReference"/>
     </platform>
 </plugin>
