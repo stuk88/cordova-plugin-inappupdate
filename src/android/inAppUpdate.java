@@ -6,6 +6,7 @@ import android.content.IntentSender;
 
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -45,6 +46,7 @@ public class inAppUpdate extends CordovaPlugin implements OnSuccessListener<AppU
         appUpdateManager = AppUpdateManagerFactory.create(cordova.getActivity());
         layout = (FrameLayout) webView.getView().getParent();
     }
+
     @Override
     public void onResume(boolean multitasking) {
         super.onResume(multitasking);
@@ -52,72 +54,80 @@ public class inAppUpdate extends CordovaPlugin implements OnSuccessListener<AppU
     }
 
     @Override
-    public boolean execute(final String action, JSONArray args, final CallbackContext callbackContext)throws JSONException {
-        if(action.equals("inAppUpdate")){
+    public boolean execute(final String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
+        if (action.equals("inAppUpdate")) {
             callback = callbackContext;
             arguments = args;
+
             appUpdateManager.getAppUpdateInfo().addOnSuccessListener(this);
-            callbackContext.success();
+
+            appUpdateManager.getAppUpdateInfo().addOnFailureListener(err -> {
+               Log.e("Ugotit -> appUpdateInfo", err.toString());
+            });
+
 
         }
         return true;
     }
+
     @Override
-    public void  onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 callback.success("user accpeted to update");
-            } else if(resultCode == RESULT_CANCELED) {
+            } else if (resultCode == RESULT_CANCELED) {
                 callback.success("user canceled to update");
-            }else{
+            } else {
                 callback.success("error occured");
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
+
     @Override
     public void onSuccess(AppUpdateInfo appUpdateInfo) {
-        try{
+        try {
             JSONObject updateData = new JSONObject();
 
-            updateData.put("versionCode",appUpdateInfo.availableVersionCode());
-            updateData.put("status",appUpdateInfo.installStatus());
+            updateData.put("versionCode", appUpdateInfo.availableVersionCode());
+            updateData.put("status", appUpdateInfo.installStatus());
 
             JSONObject appData = arguments.getJSONObject(0);
 
-            if(appData.optString("updateIndicator").toString().equals("mandatory")){
+            if (appData.optString("updateIndicator").toString().equals("mandatory")) {
                 if (appUpdateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
-                    updateData.put("updateavailablity","in_progress");
+                    updateData.put("updateavailablity", "in_progress");
                     startUpdate(appUpdateInfo, AppUpdateType.IMMEDIATE);
                 } else if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
-                    updateData.put("updateavailablity","update available");
+                    updateData.put("updateavailablity", "update available");
                     startUpdate(appUpdateInfo, AppUpdateType.IMMEDIATE);
-                }else if(appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_NOT_AVAILABLE){
-                    updateData.put("updateavailablity","update not available");
+                } else if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_NOT_AVAILABLE) {
+                    updateData.put("updateavailablity", "update not available");
                 } else if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
 
-                    popupSnackbarForCompleteUpdate(appData.optString("displayMessage").toString(),appData.optString("actionBtn").toString());
+                    popupSnackbarForCompleteUpdate(appData.optString("displayMessage").toString(), appData.optString("actionBtn").toString());
                 }
-            }else{
+            } else {
                 if (appUpdateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
-                    updateData.put("updateavailablity","in_progress");
+                    updateData.put("updateavailablity", "in_progress");
                     startUpdate(appUpdateInfo, AppUpdateType.FLEXIBLE);
                 } else if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
-                    updateData.put("updateavailablity","update available");
+                    updateData.put("updateavailablity", "update available");
                     startUpdate(appUpdateInfo, AppUpdateType.FLEXIBLE);
-                }else if(appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_NOT_AVAILABLE){
-                    updateData.put("updateavailablity","update not available");
+                } else if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_NOT_AVAILABLE) {
+                    updateData.put("updateavailablity", "update not available");
                 } else if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
-                    popupSnackbarForCompleteUpdate(appData.optString("displayMessage").toString(),appData.optString("actionBtn").toString());
+                    popupSnackbarForCompleteUpdate(appData.optString("displayMessage").toString(), appData.optString("actionBtn").toString());
                 }
             }
 
 
-        }catch (JSONException e){
+        } catch (JSONException e) {
             /*callback.error(e.getMessage());*/
         }
     }
+
     private void startUpdate(final AppUpdateInfo appUpdateInfo, final int appUpdateType) {
         new Thread(new Runnable() {
             @Override
@@ -138,8 +148,8 @@ public class inAppUpdate extends CordovaPlugin implements OnSuccessListener<AppU
     }
 
     /* Displays the snackbar notification and call to action. */
-    private void popupSnackbarForCompleteUpdate(String msg,String action) {
-        Toast.makeText(cordova.getActivity(),"An update has just been downloaded",Toast.LENGTH_LONG).show();
+    private void popupSnackbarForCompleteUpdate(String msg, String action) {
+        Toast.makeText(cordova.getActivity(), "An update has just been downloaded", Toast.LENGTH_LONG).show();
         Snackbar snackbar = Snackbar
                 .make(layout, msg, Snackbar.LENGTH_INDEFINITE)
                 .setAction(action, new View.OnClickListener() {
