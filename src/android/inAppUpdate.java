@@ -99,7 +99,7 @@ public class inAppUpdate extends CordovaPlugin implements OnSuccessListener<AppU
                 if (appUpdateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
                     updateData.put("updateavailablity", "in_progress");
                     startUpdate(appUpdateInfo, AppUpdateType.IMMEDIATE);
-                } else if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                } else if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
                     updateData.put("updateavailablity", "update available");
                     startUpdate(appUpdateInfo, AppUpdateType.IMMEDIATE);
                 } else if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_NOT_AVAILABLE) {
@@ -112,7 +112,7 @@ public class inAppUpdate extends CordovaPlugin implements OnSuccessListener<AppU
                 if (appUpdateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
                     updateData.put("updateavailablity", "in_progress");
                     startUpdate(appUpdateInfo, AppUpdateType.FLEXIBLE);
-                } else if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
+                } else if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
                     updateData.put("updateavailablity", "update available");
                     startUpdate(appUpdateInfo, AppUpdateType.FLEXIBLE);
                 } else if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_NOT_AVAILABLE) {
