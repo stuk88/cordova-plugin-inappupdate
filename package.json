@@ -1,5 +1,5 @@
 {
-  "version": "1.0.3",
+  "version": "1.0.4",
   "name": "cordova-plugin-inappupdate",
   "cordova_name": "In App Update",
   "description": "This plugin establishes the functionality for downloading the app in background.",
